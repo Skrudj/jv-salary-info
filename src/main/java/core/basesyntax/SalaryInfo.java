@@ -22,13 +22,13 @@ public class SalaryInfo {
         for (String name: names) {
             salaries.put(name, 0);
         }
-        for (String data: datas) {
-            String[] operated = data.split(" ");
-            if (compare(parse(operated[DATE_INDEX]), localDateFrom, localDateTo)) {
-                String name = operated[NAME_INDEX];
+        for (String piece: datas) {
+            String[] data = piece.split(" ");
+            if (compare(parse(data[DATE_INDEX]), localDateFrom, localDateTo)) {
+                String name = data[NAME_INDEX];
                 salaries.put(name, salaries.get(name)
-                        + Integer.parseInt(operated[SALARY_INDEX])
-                        * Integer.parseInt(operated[HOURS_INDEX]));
+                        + Integer.parseInt(data[SALARY_INDEX])
+                        * Integer.parseInt(data[HOURS_INDEX]));
             }
         }
         for (String name: names) {
