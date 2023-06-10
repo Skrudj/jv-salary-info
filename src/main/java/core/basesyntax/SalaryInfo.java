@@ -1,5 +1,6 @@
 package core.basesyntax;
 
+import core.basesyntax.util.DateUtil;
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -16,15 +17,16 @@ public class SalaryInfo {
                 .append(" - ")
                 .append(dateTo)
                 .append(System.lineSeparator());
-        LocalDate localDateFrom = parseToDate(dateFrom);
-        LocalDate localDateTo = parseToDate(dateTo);
+        LocalDate localDateFrom = DateUtil.parseToDate(dateFrom);
+        LocalDate localDateTo = DateUtil.parseToDate(dateTo);
         HashMap<String, Integer> salaries = new HashMap<>();
         for (String name: names) {
             salaries.put(name, 0);
         }
         for (String piece: datas) {
             String[] data = piece.split(" ");
-            if (isBetween(parseToDate(data[DATE_INDEX]), localDateFrom, localDateTo)) {
+            if (DateUtil.isBetween(DateUtil.parseToDate(data[DATE_INDEX]),
+                    localDateFrom, localDateTo)) {
                 String name = data[NAME_INDEX];
                 salaries.put(name, salaries.get(name)
                         + Integer.parseInt(data[SALARY_INDEX])
@@ -40,17 +42,5 @@ public class SalaryInfo {
         report.deleteCharAt(report.length() - 1);
         report.deleteCharAt(report.length() - 1);
         return report.toString();
-    }
-
-    private LocalDate parseToDate(String date) {
-        return LocalDate.of(
-                Integer.parseInt(date.substring(6)),
-                Integer.parseInt(date.substring(3, 5)),
-                Integer.parseInt(date.substring(0, 2)));
-    }
-
-    private boolean isBetween(LocalDate given, LocalDate from, LocalDate to) {
-        return (given.isAfter(from) && given.isBefore(to))
-                || given.isEqual(from) || given.isEqual(to);
     }
 }
